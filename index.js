@@ -10,6 +10,21 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
+
+  socket.on('sendMessage', function(msg){
+  	console.log("sendMessage occurred", msg);
+
+  	let message_params = {
+      user_id: 234,
+      room_id: 14,
+      type: "reaction",
+      text: msg
+    };
+
+    let message = message_params;
+
+    io.emit('sendMessage', message);
+  });
 });
 
 http.listen(3000, () => {
