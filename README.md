@@ -5,14 +5,16 @@ A basic websocket example using Socket.io & Express.
 ## Installation
 
 In root folder, run:
-
-```npm install```
+```
+npm install
+```
 
 ## Running
 
 In root folder, run:
-
-```node index.js```
+```
+node index.js
+```
 
 App will be running on `http://localhost:3000`.
 
