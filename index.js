@@ -2,31 +2,60 @@ const app = require("express")();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 
-let userData = []
+// helpers
+createUser = (id, arr) => {
+	return {
+		user_id: id
+	};
+}
 
+removeUser = (id, arr) => {
+	return arr.filter(item => {
+		return item.user_id !== id;
+	});
+}
+
+// routing and socket stuff
 app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/index.html");
 });
 
+let userData = [];
+
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
 
-  socket.on('sendMessage', function(msg){
-  	console.log("sendMessage occurred", msg);
+	console.log("user connected", socket.id);
 
-  	let message_params = {
-      user_id: 234,
-      room_id: 14,
-      type: "reaction",
-      text: msg
-    };
+	userData.push(createUser(socket.id));
 
-    let message = message_params;
+	console.log("user added", userData);
 
-    io.emit('sendMessage', message);
-  });
+	socket.on('chat message', function(msg){
+		io.emit('chat message', msg);
+	});
+
+	socket.on('sendMessage', function(msg){
+		console.log("sendMessage occurred", msg);
+
+		let message_params = {
+		  user_id: 234,
+		  room_id: 14,
+		  type: "reaction",
+		  text: msg
+		};
+
+		let message = message_params;
+
+		io.emit('sendMessage', message);
+  	});
+
+	socket.on('disconnect', () => {
+	    console.log("user disconnected", socket.id);
+
+	    userData = removeUser(socket.id, userData);
+
+	    console.log("current userData", userData);
+  	});
 });
 
 http.listen(3000, () => {

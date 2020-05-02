@@ -1,6 +1,6 @@
 # rocket-socket
 
-A basic websocket example using Socket.io & Express.
+A basic Socket.io example.
 
 ## Installation
 
