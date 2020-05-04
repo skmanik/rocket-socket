@@ -30,7 +30,7 @@ io.on('connection', function(socket){
 	console.log("user added", userData);
 
 	// send info to client
-	io.emit('added', userData);
+	io.emit('updatedUsers', userData);
 
 	socket.on('chat message', function(msg){
 		io.emit('chat message', msg);
@@ -55,6 +55,8 @@ io.on('connection', function(socket){
 	    console.log("user disconnected", socket.id);
 	    userData = removeUser(socket.id, userData);
 	    console.log("current userData", userData);
+
+	    io.emit('updatedUsers', userData);
   	});
 });
 
