@@ -20,15 +20,17 @@ app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/index.html");
 });
 
+// user state
 let userData = [];
 
 io.on('connection', function(socket){
 
 	console.log("user connected", socket.id);
-
 	userData.push(createUser(socket.id));
-
 	console.log("user added", userData);
+
+	// send info to client
+	io.emit('added', userData);
 
 	socket.on('chat message', function(msg){
 		io.emit('chat message', msg);
@@ -51,9 +53,7 @@ io.on('connection', function(socket){
 
 	socket.on('disconnect', () => {
 	    console.log("user disconnected", socket.id);
-
 	    userData = removeUser(socket.id, userData);
-
 	    console.log("current userData", userData);
   	});
 });
