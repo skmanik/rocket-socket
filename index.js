@@ -17,7 +17,7 @@ removeUser = (id, arr) => {
 
 // routing and socket stuff
 app.get("/", (req, res) => {
-	res.sendFile(__dirname + "/index.html");
+	res.send("Socket.io working!");
 });
 
 // user state

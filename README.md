@@ -16,7 +16,7 @@ In root folder, run:
 node index.js
 ```
 
-App will be running on `http://localhost:3000`.
+App will be running on `localhost:3000`.
 
 ## Notes
 
