@@ -32,23 +32,18 @@ io.on('connection', function(socket){
 	// send info to client
 	io.emit('updatedUsers', userData);
 
+	io.to(socket.id).emit('currentUser', socket.id);
+
 	socket.on('chat message', function(msg){
 		io.emit('chat message', msg);
 	});
 
-	socket.on('sendMessage', function(msg){
-		console.log("sendMessage occurred", msg);
+	socket.on('sendMessage', function(message){
+		console.log("sendMessage occurred", message);
 
-		let message_params = {
-		  user_id: 234,
-		  room_id: 14,
-		  type: "reaction",
-		  text: msg
-		};
+		let targetSocket = message.user_id;
 
-		let message = message_params;
-
-		io.emit('sendMessage', message);
+		io.to(targetSocket).emit('sendMessage', message);
   	});
 
 	socket.on('disconnect', () => {
