@@ -31,16 +31,10 @@ io.on('connection', function(socket){
 
 	// send info to client
 	io.emit('updatedUsers', userData);
-
 	io.to(socket.id).emit('currentUser', socket.id);
-
-	socket.on('chat message', function(msg){
-		io.emit('chat message', msg);
-	});
 
 	socket.on('sendMessage', function(message){
 		console.log("sendMessage occurred", message);
-
 		let targetSocket = message.user_id;
 
 		io.to(targetSocket).emit('sendMessage', message);
